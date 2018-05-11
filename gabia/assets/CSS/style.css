@@ -227,7 +227,16 @@ border-radius: 50px; width: 65px; height: 50px; padding-left: 55px; line-height:
 /* table-style3 */
 .table-style3 {}
 
-/*gabia site
+
+/*select2
+.select2 {overflow: hidden; padding: 70px 0; }
+.select2 h3 {float: left; font-size: 40px; color:#fff; width: 33.3333px; }
+.select2 > div {float: left; width: 25.8333%; padding:3%; margin-left: 20px;height: 300px; }
+.select2 > div.sel-1 {background-image: url(../img/site2-icon1.png);}
+.select2 > div.sel-2 img{background-image: url(../img/site2-icon2.png);}
+.sub > div h4 {font-size: 18px;color:#fff; padding-bottom: 20px;padding-top: 150px;}
+.sub > div p {font-size: 18px;color:#fff;}*/
+/*gabia site*/
 .sub {overflow: hidden; padding: 85px 300px; background-color: #1d7abd ;	margin-top:100px }
 .sub h3 {float: left; font-size: 40px; color:#fff; width: 400px; }
 .sub > div {float: left; color:#fff; background-color: #2886ca; padding-left:35px; margin-left: 20px;	 }
@@ -240,7 +249,7 @@ border-radius: 50px; width: 65px; height: 50px; padding-left: 55px; line-height:
 .sub > div.sel-2 img{padding:40px 0;}
 .sub > div.sel-2  p {float: left; font-size: 15px; color:#d2f0ff;}
 .sub > div.sel-2 h4 a{font-size: 18px;color:#fff; }
-.sub > div.sel-2 h4{margin-bottom: 10px;	}*/
+.sub > div.sel-2 h4{margin-bottom: 10px;	}
 
 /*infor
 .infor2 {padding: 70px 0; text-align: center;}
