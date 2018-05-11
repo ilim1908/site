@@ -1,0 +1,1457 @@
+@charset "UTF-8";
+/* reset */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, textarea, p, blockquote, th, td, input, select, button {
+  margin: 0;
+  padding: 0; }
+
+fieldset, img {
+  border: 0 none; }
+
+dl, ul, ol, menu, li {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: '';
+  content: none; }
+
+input, select, textarea, button {
+  vertical-align: middle; }
+
+input::-ms-clear {
+  display: none; }
+
+button {
+  border: 0 none;
+  background-color: transparent;
+  cursor: pointer; }
+
+body {
+  direction: ltr;
+  -webkit-text-size-adjust: none; }
+
+body, h1, h2, h3, h4, th, td, input, select, textarea, button, a:link, a:visited, a:hover {
+  color: #333;
+  font-size: 1em;
+  line-height: 1.5;
+  font-family: 'Spoqa Han Sans','Malgun Gothic','맑은 고딕','Apple SD Gothic Neo','돋움',dotum, sans-serif; }
+
+a {
+  text-decoration: none; }
+
+a:hover {
+  text-decoration: none; }
+
+a:active {
+  background-color: transparent; }
+
+address, caption, cite, code, dfn, em, var {
+  font-style: normal;
+  font-weight: normal; }
+
+html {
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+[v-cloak] {
+  display: none; }
+
+/**
+ * Copyright (c) 2015 Spoqa, Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 700;
+  src: local("Spoqa Han Sans Bold"), url("/assets/common/renew/fonts/bold/SpoqaHanSansBold.woff2") format("woff2"), url("/assets/common/renew/fonts/bold/SpoqaHanSansBold.woff") format("woff"), url("/assets/common/renew/fonts/bold/SpoqaHanSansBold.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 400;
+  src: local("Spoqa Han Sans Regular"), url("/assets/common/renew/fonts/regular/SpoqaHanSansRegular.woff2") format("woff2"), url("/assets/common/renew/fonts/regular/SpoqaHanSansRegular.woff") format("woff"), url("/assets/common/renew/fonts/regular/SpoqaHanSansRegular.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 300;
+  src: local("Spoqa Han Sans Light"), url("/assets/common/renew/fonts/light/SpoqaHanSansLight.woff2") format("woff2"), url("/assets/common/renew/fonts/light/SpoqaHanSansLight.woff") format("woff"), url("/assets/common/renew/fonts/light/SpoqaHanSansLight.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Spoqa Han Sans';
+  font-weight: 100;
+  src: local("Spoqa Han Sans Thin"), url("/assets/common/renew/fonts/thin/SpoqaHanSansThin.woff2") format("woff2"), url("/assets/common/renew/fonts/thin/SpoqaHanSansThin.woff") format("woff"), url("/assets/common/renew/fonts/thin/SpoqaHanSansThin.ttf") format("truetype"); }
+/* helper */
+.gt-blind {
+  overflow: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  text-indent: -9999px; }
+
+.gt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0;
+  z-index: 1010; }
+
+.gt-f-l {
+  float: left; }
+
+.gt-f-r {
+  float: right; }
+
+.gt-overflow-hidden {
+  overflow: hidden; }
+
+.gt-skip-navigation .gt-skip-link {
+  position: absolute;
+  top: -10000px;
+  left: 0;
+  z-index: 10000;
+  background: #333;
+  text-align: center;
+  color: white;
+  padding: 10px;
+  font-size: 12px; }
+
+.gt-skip-navigation .gt-skip-link:focus {
+  top: 0; }
+
+.gt-screen-out {
+  overflow: hidden;
+  position: absolute;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  text-indent: -9999px; }
+
+.gt-float-left {
+  float: left; }
+
+.gt-float-right {
+  float: right; }
+
+.gt-float-none {
+  float: none; }
+
+.gt-relative {
+  position: relative; }
+
+.gt-absolute {
+  position: absolute; }
+
+.gt-align-left {
+  text-align: left; }
+
+.gt-align-right {
+  text-align: right; }
+
+.gt-justify {
+  text-align: justify; }
+
+.gt-center {
+  text-align: center; }
+
+.gt-bold {
+  font-weight: 400; }
+
+.gt-vertical-top {
+  vertical-align: top; }
+
+.gt-vertical-middle {
+  vertical-align: middle; }
+
+.gt-vertical-bottom {
+  vertical-align: bottom; }
+
+.gt-block {
+  display: block; }
+
+.gt-inline {
+  display: inline; }
+
+.gt-inline-block {
+  display: inline-block; }
+
+.gt-hide {
+  display: none; }
+
+.gt-clearfix:after {
+  display: block;
+  content: '';
+  clear: both; }
+
+.gt-image {
+  max-width: 100%; }
+
+.gt-rest {
+  overflow: hidden; }
+
+.w-blue {
+  background: #1d7abd; }
+
+.w-light-blue {
+  background: #89d7fe; }
+
+.w-gray {
+  background: #4d515a; }
+
+.w-yellow {
+  background: #ffd56c; }
+
+.w-text {
+  color: #333; }
+
+.w-blue-text {
+  color: #1d7abd !important; }
+
+.w-light-text {
+  color: #666 !important; }
+
+.w-orange-text {
+  color: #f66b06 !important; }
+
+.w-eee-text {
+  color: #eee !important; }
+
+.w-ddd-text {
+  color: #ddd !important; }
+
+.w-ccc-text {
+  color: #ccc !important; }
+
+.w-999-text {
+  color: #999 !important; }
+
+.w-666-text {
+  color: #666 !important; }
+
+.w-333-text {
+  color: #333 !important; }
+
+.gt-cell-row {
+  display: table;
+  width: 100%; }
+
+.gt-cell-row .gt-cell {
+  display: table-cell; }
+
+.gt-cell-row .gt-cell-top {
+  vertical-align: top; }
+
+.gt-cell-row .gt-cell-middle {
+  vertical-align: middle; }
+
+.gt-cell-row .gt-cell-bottom {
+  vertical-align: bottom; }
+
+.hover-underline:hover {
+  text-decoration: underline; }
+
+.pt10 {
+  padding-top: 10px; }
+
+.pr10 {
+  padding-right: 10px; }
+
+.pb10 {
+  padding-bottom: 10px; }
+
+.pl10 {
+  padding-left: 10px; }
+
+.pl20 {
+  padding-left: 20px; }
+
+.pt20 {
+  padding-top: 20px; }
+
+.pt36 {
+  padding-top: 36px; }
+
+.pt50 {
+  padding-top: 50px; }
+
+.gt-tiny {
+  font-size: 12px; }
+
+.gt-small {
+  font-size: 14px; }
+
+.gt-medium, .term-price {
+  font-size: 16px; }
+
+.sans-serif {
+  font-family: sans-serif; }
+
+.border-top {
+  border-top: 1px solid #e4e4e4; }
+
+.border-right {
+  border-right: 1px solid #e4e4e4; }
+
+.border-bottom {
+  border-bottom: 1px solid #e4e4e4; }
+
+.border-left {
+  border-left: 1px solid #e4e4e4; }
+
+.w-badge {
+  display: inline-block;
+  padding: 3px 9px;
+  margin-bottom: 8px;
+  background-color: #333;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 300; }
+
+.idc-center {
+  font-weight: 300;
+  color: #666; }
+  .idc-center .tit-big, .idc-center .tit-small {
+    font-weight: 400;
+    color: #333; }
+  .idc-center .tit-big {
+    font-size: 32px; }
+  .idc-center .tit-small {
+    font-size: 18px; }
+  .idc-center .gt-btn-txt {
+    font-weight: 400; }
+  .idc-center > article:not(:first-of-type) {
+    margin-top: 140px; }
+  .idc-center > article.network dt {
+    margin-bottom: 20px; }
+  .idc-center > article.network dd:first-of-type ~ dd {
+    margin-top: 60px; }
+  .idc-center > article.network dd .tit-small {
+    margin-bottom: 50px; }
+  .idc-center > article.equipment dt {
+    margin-bottom: 60px; }
+  .idc-center > article.equipment dd > ul {
+    width: 100%; }
+    .idc-center > article.equipment dd > ul:before, .idc-center > article.equipment dd > ul:after {
+      content: " ";
+      display: block; }
+    .idc-center > article.equipment dd > ul:after {
+      clear: both; }
+    .idc-center > article.equipment dd > ul > li {
+      float: left;
+      width: 50%; }
+      .idc-center > article.equipment dd > ul > li:nth-child(2) ~ li {
+        margin-top: 30px; }
+      .idc-center > article.equipment dd > ul > li:nth-child(even) {
+        padding-left: 30px; }
+      .idc-center > article.equipment dd > ul > li > .cell {
+        display: table;
+        width: 100%; }
+        .idc-center > article.equipment dd > ul > li > .cell > * {
+          display: table-cell;
+          vertical-align: top; }
+        .idc-center > article.equipment dd > ul > li > .cell > .thumb {
+          width: 150px;
+          padding-right: 30px; }
+        .idc-center > article.equipment dd > ul > li > .cell .tit-small {
+          display: block;
+          margin-bottom: 5px; }
+  .idc-center > article.map dt {
+    margin-bottom: 40px; }
+  .idc-center > article.map dd:nth-of-type(1) {
+    display: table;
+    width: 100%;
+    margin-bottom: 30px; }
+    .idc-center > article.map dd:nth-of-type(1) > * {
+      display: table-cell;
+      vertical-align: top; }
+    .idc-center > article.map dd:nth-of-type(1) .w-list {
+      padding-left: 20px; }
+      .idc-center > article.map dd:nth-of-type(1) .w-list li {
+        margin-bottom: 15px; }
+        .idc-center > article.map dd:nth-of-type(1) .w-list li em {
+          display: block;
+          margin-bottom: 7px; }
+
+.library {
+  padding: 85px 0;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: -1px; }
+  .library:before, .library:after {
+    content: " ";
+    display: block; }
+  .library:after {
+    clear: both; }
+  .library h3.tit {
+    padding-bottom: 50px;
+    font-size: 34px;
+    font-weight: 400;
+    letter-spacing: -2px; }
+    .library h3.tit .ico-middle {
+      display: inline-block;
+      width: 29px;
+      height: 28px;
+      margin: 0 14px -2px;
+      background: url(https://www.gabia.com/assets/renew/images/main/ico_middle_txt.png) no-repeat 0 0; }
+  .library li {
+    float: left;
+    width: calc(25% - 20px);
+    height: 480px;
+    margin-right: 26px;
+    position: relative; }
+    .library li:last-child {
+      margin-right: 0; }
+    .library li .lib-cont {
+      height: 300px;
+      border-top: 2px solid #6f6f6f; }
+      .library li .lib-cont .tit {
+        font-size: 22px;
+        padding: 22px 0 14px; }
+      .library li .lib-cont .cont-info {
+        color: #7e7e7e; }
+    .library li .thumb-group {
+      position: absolute;
+      bottom: 0; }
+      .library li .thumb-group .publish-time {
+        padding-left: 23px;
+        padding-bottom: 5px;
+        background: url(https://www.gabia.com/assets/renew/images/main/ico_publishtime_clock.png) no-repeat 0 2px;
+        color: #999;
+        font-size: 14px; }
+      .library li .thumb-group .img-thumb {
+        width: 100%; }
+
+.board {
+  color: #666;
+  font-weight: 300; }
+  .board:before, .board:after {
+    content: " ";
+    display: block; }
+  .board:after {
+    clear: both; }
+  .board h3.tit {
+    display: inline-block;
+    font-size: 34px;
+    font-weight: 400; }
+  .board .notice {
+    float: left;
+    width: 780px; }
+    .board .notice .full-view {
+      color: #666;
+      margin-left: 20px; }
+      .board .notice .full-view .ico {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        width: 8px;
+        height: 14px;
+        margin-left: 5px;
+        background: url(https://www.gabia.com/assets/renew/images/main/ico_view_all.png) no-repeat 0 0; }
+    .board .notice .item-list {
+      margin-top: 20px;
+      border-top: 2px solid #6f6f6f; }
+      .board .notice .item-list li {
+        padding: 20px 10px;
+        border-bottom: 1px solid #e5e5e5; }
+        .board .notice .item-list li .time {
+          display: inline-block;
+          color: #999;
+          float: right; }
+  .board .name-server {
+    float: right;
+    width: 380px; }
+    .board .name-server .item-list {
+      margin-top: 20px;
+      padding: 20px 20px;
+      border-top: 2px solid #6f6f6f;
+      border-bottom: 1px solid #e5e5e5; }
+      .board .name-server .item-list li {
+        padding: 12px 0 13px; }
+        .board .name-server .item-list li:last-child {
+          padding-bottom: 20px; }
+        .board .name-server .item-list li .label {
+          margin-right: 20px;
+          padding: 1px 8px;
+          background: #666;
+          color: #fff; }
+
+/*****************************************/
+/** server *******************************/
+/*****************************************/
+.sub-title {
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1.3;
+  letter-spacing: -2px; }
+  .sub-title + .detail {
+    padding: 15px 0 35px;
+    font-size: 18px;
+    font-weight: 300;
+    letter-spacing: -1px; }
+
+.bottom-border {
+  border-bottom: 1px solid #f3f3f3; }
+
+.layer-bottom {
+  padding-bottom: 25px; }
+
+.layer-title {
+  color: #333;
+  padding-bottom: 20px; }
+
+.gt-layer-body {
+  color: #666; }
+
+.more-info {
+  padding-top: 21px; }
+.more-product {
+  padding: 20px 0 50px; }
+
+.subtop {
+  width: 100%;
+  height: 260px;
+  padding-top: 80px;
+  color: #fff; }
+  .subtop:before, .subtop:after {
+    content: " ";
+    display: block; }
+  .subtop:after {
+    clear: both; }
+  .subtop .sub-info {
+    float: left;
+    width: 760px;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.4;
+    letter-spacing: -1px; }
+    .subtop .sub-info .service-name {
+      font-size: 40px;
+      color: #fff;
+      letter-spacing: -2px; }
+  .subtop.serverhosting {
+    background: url("/assets/renew/images/server/bg_subtop_serverhosting.png") center/cover no-repeat; }
+  .subtop.l4 {
+    background: url("/assets/renew/images/server/bg_subtop_l4.png") center/cover no-repeat; }
+  .subtop.onemin {
+    background: url("/assets/renew/images/server/img_subtop_1min.png") center/cover no-repeat; }
+  .subtop-menu {
+    float: right;
+    padding-top: 20px; }
+    .subtop-menu li {
+      float: left;
+      margin-left: 20px; }
+      .subtop-menu li a {
+        display: inline-block;
+        width: 120px;
+        height: 50px;
+        line-height: 46px;
+        padding-left: 55px;
+        background-color: #1d7abd;
+        border: 2px solid #b2ddf9;
+        border-radius: 50px;
+        color: #b2ddf9;
+        font-size: 18px; }
+        .subtop-menu li a.spec {
+          background: url("/assets/common/renew/images/ico_subtop_spec.png") no-repeat 15px 50%; }
+        .subtop-menu li a.feature {
+          background: url("/assets/common/renew/images/ico_subtop_feature.png") no-repeat 15px 50%; }
+        .subtop-menu li a.faq {
+          background: url("/assets/common/renew/images/ico_subtop_faq.png") no-repeat 15px 50%; }
+        .subtop-menu li a:hover {
+          border: 2px solid #fff;
+          color: #fff; }
+
+.product-comment li {
+  color: #666; }
+.product-wrap {
+  padding-bottom: 100px; }
+.product-sort {
+  float: left;
+  padding-top: 0; }
+  .product-sort a:link, .product-sort a:visited, .product-sort a:hover {
+    color: #999;
+    font-size: 18px; }
+    .product-sort a:link.active, .product-sort a:visited.active, .product-sort a:hover.active {
+      color: #333; }
+  .product-sort-item {
+    padding: 0 12px; }
+.product-table .spec {
+  padding-left: 38px; }
+  .product-table .spec li {
+    text-indent: -38px; }
+  .product-table .spec .title {
+    color: #333; }
+
+.recommend {
+  padding: 70px 0;
+  color: #fff; }
+  .recommend:before, .recommend:after {
+    content: " ";
+    display: block; }
+  .recommend:after {
+    clear: both; }
+  .recommend .title {
+    float: left;
+    width: 380px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: -2px; }
+    .recommend .title strong {
+      font-weight: 400; }
+  .recommend .items {
+    float: left; }
+    .recommend .items li {
+      float: left;
+      width: 380px;
+      height: 350px;
+      padding: 40px 28px 54px 50px;
+      margin-left: 20px;
+      background-color: #2886ca; }
+      .recommend .items li dl {
+        padding-top: 145px; }
+        .recommend .items li dl.trust {
+          background: url("/assets/renew/images/server/ico_trust.png") no-repeat left top; }
+        .recommend .items li dl.firewall {
+          background: url("/assets/renew/images/server/ico_firewall.png") no-repeat left top; }
+        .recommend .items li dl.backup {
+          background: url("/assets/renew/images/server/ico_backup.png") no-repeat left top; }
+        .recommend .items li dl.lease {
+          background: url("/assets/renew/images/server/ico_lease.png") no-repeat left top; }
+        .recommend .items li dl.mornitoring {
+          background: url("/assets/renew/images/server/ico_mornitoring.png") no-repeat left top; }
+        .recommend .items li dl.ha {
+          background: url("/assets/renew/images/server/ico_ha.png") no-repeat left top; }
+        .recommend .items li dl.l4 {
+          background: url("/assets/renew/images/server/ico_l4.png") no-repeat left top; }
+      .recommend .items li dt {
+        font-size: 18px;
+        padding-bottom: 7px; }
+        .recommend .items li dt a {
+          color: #fff;
+          letter-spacing: -1px; }
+          .recommend .items li dt a:hover {
+            text-decoration: underline; }
+          .recommend .items li dt a .fa {
+            margin-left: 6px; }
+      .recommend .items li dd {
+        color: #d2f0ff;
+        letter-spacing: -1px;
+        font-weight: 300; }
+  .recommend.additions .items {
+    width: auto; }
+    .recommend.additions .items li:first-child {
+      background: none;
+      margin-left: 0;
+      padding: 0; }
+    .recommend.additions .items li:nth-child(4) {
+      margin-left: 0; }
+    .recommend.additions .items li:nth-of-type(n+3) {
+      margin-top: 0; }
+    .recommend.additions .items li:nth-child(n + 4) {
+      margin-top: 20px; }
+
+.consult {
+  padding: 85px 0;
+  text-align: center; }
+  .consult .sub-title.space-bottom {
+    padding-bottom: 35px; }
+  .consult .call-center {
+    width: 900px;
+    margin: 0 auto;
+    padding-top: 45px; }
+    .consult .call-center:before, .consult .call-center:after {
+      content: " ";
+      display: block; }
+    .consult .call-center:after {
+      clear: both; }
+    .consult .call-center .pro {
+      float: left;
+      width: 460px; }
+      .consult .call-center .pro .part {
+        display: inline-block;
+        width: 145px; }
+    .consult .call-center .error {
+      float: left; }
+      .consult .call-center .error .part {
+        padding-right: 20px; }
+    .consult .call-center .title {
+      display: table-cell;
+      width: 110px;
+      height: 110px;
+      color: #fff;
+      background: #1d7abd;
+      border-radius: 50%;
+      vertical-align: middle; }
+    .consult .call-center ul {
+      display: table-cell;
+      vertical-align: middle;
+      padding-left: 15px; }
+    .consult .call-center li {
+      text-align: left;
+      line-height: 2; }
+      .consult .call-center li .tel {
+        color: #1d7abd;
+        font-size: 18px; }
+
+.about-server {
+  padding: 85px 0;
+  background: url("/assets/renew/images/server/img_bg_server.png") center/cover no-repeat;
+  color: #fff;
+  text-align: center; }
+  .about-server.onemin {
+    background: url("/assets/renew/images/server/img_bg_1min.png") center/cover no-repeat; }
+  .about-server.vps {
+    background: url("/assets/renew/images/server/img_bg_vps.png") center/cover no-repeat; }
+  .about-server h3 {
+    color: #fff; }
+  .about-server .detail {
+    padding-bottom: 85px; }
+
+.functions {
+  padding: 90px 0 85px;
+  text-align: center; }
+  .functions .items {
+    padding-top: 90px; }
+    .functions .items:before, .functions .items:after {
+      content: " ";
+      display: block; }
+    .functions .items:after {
+      clear: both; }
+    .functions .items li {
+      display: inline-block;
+      vertical-align: top;
+      width: 24.77%;
+      color: #666; }
+      .functions .items li:nth-child(n + 5) {
+        margin-top: 60px; }
+      .functions .items li .gt-layer {
+        text-align: left;
+        font-size: 16px; }
+        .functions .items li .gt-layer .w-list.dot > li {
+          text-align: left;
+          display: table;
+          width: auto;
+          margin-top: 0; }
+        .functions .items li .gt-layer .w-list.decimal > li {
+          list-style: decimal;
+          text-align: left;
+          display: table;
+          width: auto;
+          margin-top: 0; }
+      .functions .items li .img-thumb {
+        display: inline-block;
+        width: 72px;
+        height: 74px;
+        background-position: center 50%;
+        background-repeat: no-repeat; }
+        .functions .items li .img-thumb.genine {
+          background-image: url("/assets/renew/images/server/ico_genuine.png"); }
+        .functions .items li .img-thumb.consulting {
+          background-image: url("/assets/renew/images/server/ico_consulting.png"); }
+        .functions .items li .img-thumb.support {
+          background-image: url("/assets/renew/images/server/ico_support.png"); }
+        .functions .items li .img-thumb.webmail {
+          background-image: url("/assets/renew/images/server/ico_webmail.png"); }
+        .functions .items li .img-thumb.nameserver {
+          background-image: url("/assets/renew/images/server/ico_nameserver.png"); }
+        .functions .items li .img-thumb.sms {
+          background-image: url("/assets/renew/images/server/ico_sms.png"); }
+        .functions .items li .img-thumb.use {
+          background-image: url("/assets/renew/images/server/ico_use.png"); }
+        .functions .items li .img-thumb.no-agreement {
+          background-image: url("/assets/renew/images/server/ico_no_agreement.png"); }
+        .functions .items li .img-thumb.management-tool {
+          background-image: url("/assets/renew/images/server/ico_management_tool.png"); }
+        .functions .items li .img-thumb.webmail-1min {
+          background-image: url("/assets/renew/images/server/ico_webmail_1min.png"); }
+        .functions .items li .img-thumb.remote {
+          background-image: url("/assets/renew/images/server/ico_remote.png"); }
+        .functions .items li .img-thumb.sms {
+          background-image: url("/assets/renew/images/server/ico_sms.png"); }
+        .functions .items li .img-thumb.vps-ssd {
+          background-image: url("/assets/renew/images/server/ico_ssd.png"); }
+        .functions .items li .img-thumb.vps-freefw {
+          background-image: url("/assets/renew/images/server/ico_free_fw.png"); }
+        .functions .items li .img-thumb.vps-remote-power {
+          background-image: url("/assets/renew/images/server/ico_remote_power.png"); }
+        .functions .items li .img-thumb.vps-cheap-price {
+          background-image: url("/assets/renew/images/server/ico_cheap_price.png"); }
+        .functions .items li .img-thumb.vps-fw {
+          background-image: url("/assets/renew/images/server/ico_vps_fw.png"); }
+      .functions .items li .title {
+        margin: 8px 0;
+        color: #333;
+        font-size: 18px; }
+        .functions .items li .title .gt-open-layer {
+          position: relative;
+          top: -1px; }
+        .functions .items li .title .fa {
+          margin-left: 7px; }
+      .functions .items li a {
+        color: #666; }
+        .functions .items li a .title:hover {
+          text-decoration: underline; }
+    .functions .items.three li {
+      width: 33.1%;
+      float: none;
+      display: inline-block;
+      vertical-align: top; }
+      .functions .items.three li:nth-child(n + 4) {
+        margin-top: 60px; }
+
+.about-l4 {
+  padding: 85px 0;
+  background: url("/assets/renew/images/server/bg_conts_l4.png") center 0/cover no-repeat;
+  color: #fff;
+  text-align: center; }
+  .about-l4 .sub-title {
+    color: #fff; }
+
+.event-slogan {
+  padding: 85px 0;
+  background: url(https://static.gabia.com/event/2018/0227_server/slogan.png) center/cover no-repeat;
+  text-align: center; }
+  .event-slogan .title {
+    font-size: 40px;
+    color: #fff;
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: -2px; }
+  .event-slogan .description {
+    font-size: 18px;
+    font-weight: 300;
+    color: #fff;
+    padding-bottom: 30px; }
+
+.faq-container .gt-btn-toggle.fr {
+  float: right;
+  margin-top: 14px; }
+
+/*****************************************/
+/** colocation *******************************/
+/*****************************************/
+.bottom-border {
+  border-bottom: 1px solid #f3f3f3; }
+
+.mt-10 {
+  margin-top: 10px; }
+
+.subtop.rack {
+  background: url("/assets/renew/images/colo/img_subtop_colo.png") center/cover no-repeat; }
+
+.recommend .title {
+  width: 400px; }
+.recommend .items {
+  width: 760px; }
+  .recommend .items li {
+    width: 360px;
+    padding: 40px 38px 54px 40px; }
+    .recommend .items li:nth-of-type(n+3) {
+      margin-top: 20px; }
+    .recommend .items li dl {
+      padding-top: 145px; }
+      .recommend .items li dl.trust {
+        background: url("/assets/renew/images/colo/ico_recom_lack01.png") no-repeat left top; }
+      .recommend .items li dl.firewall {
+        background: url("/assets/renew/images/colo/ico_recom_lack02.png") no-repeat left top; }
+      .recommend .items li dl.software {
+        background: url("/assets/renew/images/colo/ico_add_lack01.png") no-repeat left top; }
+      .recommend .items li dl.backup {
+        background: url("/assets/renew/images/colo/ico_add_lack02.png") no-repeat left top; }
+      .recommend .items li dl.webfirewall {
+        background: url("/assets/renew/images/colo/ico_add_lack03.png") no-repeat left top; }
+      .recommend .items li dl.vaccine {
+        background: url("/assets/renew/images/colo/ico_add_lack04.png") no-repeat left top; }
+    .recommend .items li dt {
+      padding-bottom: 7px; }
+      .recommend .items li dt .gt-btn-txt {
+        color: #fff; }
+    .recommend .items li dd {
+      color: #d2f0ff; }
+  .recommend .items.reverse li dl {
+    height: 100%;
+    padding-top: 0; }
+
+.consult .wrap-division {
+  padding: 45px 0 0 205px; }
+  .consult .wrap-division:before, .consult .wrap-division:after {
+    content: " ";
+    display: block; }
+  .consult .wrap-division:after {
+    clear: both; }
+  .consult .wrap-division .division {
+    display: table;
+    float: left;
+    width: 456px; }
+    .consult .wrap-division .division .title {
+      display: table-cell;
+      vertical-align: middle;
+      width: 109px;
+      height: 109px;
+      border-radius: 50%;
+      background: #1d7abd;
+      color: #fff; }
+    .consult .wrap-division .division .number {
+      display: table-cell;
+      padding-left: 13px;
+      text-align: left;
+      vertical-align: middle; }
+      .consult .wrap-division .division .number span:first-child {
+        display: inline-block;
+        width: 80px; }
+      .consult .wrap-division .division .number span.text-blue {
+        color: #1d7abd; }
+    .consult .wrap-division .division:first-child .number span:first-child {
+      width: 143px; }
+
+.about-colocation {
+  padding: 85px 0;
+  background: url("/assets/renew/images/colo/bg_conts_rack01.png") center 0/cover no-repeat;
+  color: #fff;
+  text-align: center; }
+  .about-colocation .sub-title {
+    color: #fff; }
+
+.functions .items li {
+  float: left;
+  width: 25%; }
+  .functions .items li .ico {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    margin-left: 5px;
+    background: url("/assets/renew/images/ico_skill_detail.png") no-repeat 0 0; }
+  .functions .items li .img-thumb.ico-01 {
+    background-image: url("/assets/renew/images/colo/ico_func_lack01.png"); }
+  .functions .items li .img-thumb.ico-02 {
+    background-image: url("/assets/renew/images/colo/ico_func_lack02.png"); }
+  .functions .items li .img-thumb.ico-03 {
+    background-image: url("/assets/renew/images/colo/ico_func_lack03.png"); }
+  .functions .items li .img-thumb.ico-04 {
+    background-image: url("/assets/renew/images/colo/ico_func_lack04.png"); }
+  .functions .items li .img-thumb.ico-05 {
+    background-image: url("/assets/renew/images/colo/ico_func_lack05.png"); }
+  .functions .items li .title > .gt-layer {
+    display: inline-block;
+    font-size: 16px; }
+    .functions .items li .title > .gt-layer .title {
+      font-size: 16px; }
+.functions .items.two li {
+  width: 49.9%; }
+
+.a-link {
+  text-decoration: underline; }
+  .a-link:hover {
+    color: #1d7abd;
+    text-decoration: underline; }
+
+.bottom-border {
+  border-bottom: 1px solid #f3f3f3; }
+
+a.und-link:hover {
+  text-decoration: underline; }
+
+.subtop {
+  min-width: 1180px; }
+  .subtop.backup {
+    background: url("/assets/renew/images/backup/bg_backup_subtop.png") center 0/cover no-repeat; }
+
+.consult.backup .tel {
+  margin-top: 60px; }
+  .consult.backup .tel dt {
+    font-weight: 400; }
+  .consult.backup .tel dd {
+    margin-bottom: 5px;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: -2px;
+    color: #0081c8; }
+    .consult.backup .tel dd .ico-headset {
+      display: inline-block;
+      width: 33px;
+      height: 36px;
+      margin-right: 25px;
+      background: url("/assets/common/renew/images/ico_headset.png") no-repeat 0 0; }
+
+.about-backup {
+  padding: 85px 0;
+  min-width: 1180px;
+  background: url("/assets/renew/images/backup/bg_aboutbackup.png") center 0/cover no-repeat;
+  color: #fff;
+  text-align: center;
+  font-weight: 300; }
+  .about-backup .sub-title {
+    color: #fff;
+    margin-bottom: 20px; }
+  .about-backup .detail {
+    padding: 0; }
+
+.importance-backup {
+  padding: 85px 0; }
+  .importance-backup .item-list {
+    display: table;
+    width: 100%; }
+    .importance-backup .item-list + .item-list {
+      margin-top: 90px; }
+    .importance-backup .item-list .item-cell {
+      display: table-cell;
+      vertical-align: top;
+      color: #666;
+      font-weight: 300; }
+      .importance-backup .item-list .item-cell:not(:only-child) {
+        width: 40%;
+        padding-left: 120px; }
+      .importance-backup .item-list .item-cell.picture {
+        position: relative; }
+        .importance-backup .item-list .item-cell.picture img {
+          position: absolute;
+          top: -50px; }
+      .importance-backup .item-list .item-cell dt {
+        margin-bottom: 40px;
+        font-size: 28px;
+        font-weight: 400;
+        color: #333; }
+    .importance-backup .item-list .bubble {
+      position: absolute;
+      top: 12px;
+      right: 0; }
+
+.functions.backup .items {
+  padding-top: 90px; }
+  .functions.backup .items:before, .functions.backup .items:after {
+    content: " ";
+    display: block; }
+  .functions.backup .items:after {
+    clear: both; }
+  .functions.backup .items li {
+    float: left;
+    width: 50%;
+    color: #666; }
+    .functions.backup .items li:nth-child(2) ~ li {
+      margin-top: 90px; }
+    .functions.backup .items li .img-thumb {
+      display: inline-block;
+      width: 74px;
+      height: 74px;
+      background-position: center 50%;
+      background-repeat: no-repeat; }
+      .functions.backup .items li .img-thumb.compatible {
+        background-image: url("/assets/renew/images/backup/ico_compatible.png"); }
+      .functions.backup .items li .img-thumb.performance {
+        background-image: url("/assets/renew/images/backup/ico_performance.png"); }
+      .functions.backup .items li .img-thumb.stable {
+        background-image: url("/assets/renew/images/backup/ico_stable.png"); }
+      .functions.backup .items li .img-thumb.remove-repeat {
+        background-image: url("/assets/renew/images/backup/ico_remove_repeat.png"); }
+    .functions.backup .items li .title {
+      margin: 10px 0 14px;
+      color: #333;
+      font-size: 18px;
+      font-weight: 400; }
+
+.bottom-border {
+  border-bottom: 1px solid #f3f3f3; }
+
+.subtop.monitoring {
+  background: url("/assets/renew/images/monitoring/bg_monitoring_subtop.png") center/cover no-repeat; }
+
+.consult.monitoring .sub-title {
+  margin-bottom: 40px; }
+.consult.monitoring .tel {
+  margin-top: 60px; }
+  .consult.monitoring .tel dt {
+    font-weight: 400; }
+  .consult.monitoring .tel dd {
+    margin-bottom: 5px;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: -2px;
+    color: #0081c8; }
+    .consult.monitoring .tel dd .ico-headset {
+      display: inline-block;
+      width: 33px;
+      height: 36px;
+      margin-right: 25px;
+      background: url("/assets/common/renew/images/ico_headset.png") no-repeat 0 0; }
+
+.about-monitoring {
+  padding: 85px 0;
+  background: url("/assets/renew/images/monitoring/bg_monitoring.png") center/cover no-repeat;
+  color: #fff;
+  text-align: center;
+  font-weight: 300; }
+  .about-monitoring .sub-title {
+    color: #fff;
+    margin-bottom: 20px; }
+
+.importance-monitoring {
+  padding-top: 85px;
+  color: #666;
+  font-weight: 300; }
+  .importance-monitoring dl + dl {
+    margin-top: 90px; }
+  .importance-monitoring dl dt {
+    font-size: 28px;
+    color: #333;
+    font-weight: 400;
+    margin-bottom: 40px; }
+  .importance-monitoring dl dd > div:first-child {
+    margin-bottom: 50px; }
+  .importance-monitoring dl dd .bold {
+    font-weight: 400;
+    margin-bottom: 5px; }
+  .importance-monitoring dl dd .img {
+    margin-top: 30px; }
+  .importance-monitoring dl dd .img-set {
+    margin-top: 30px; }
+    .importance-monitoring dl dd .img-set:before, .importance-monitoring dl dd .img-set:after {
+      content: " ";
+      display: block; }
+    .importance-monitoring dl dd .img-set:after {
+      clear: both; }
+    .importance-monitoring dl dd .img-set > img {
+      float: left;
+      margin-right: 30px; }
+
+.subtop.lease {
+  background: url("/assets/renew/images/software/bg_subtop_lease.png") center/cover no-repeat; }
+
+.product-wrap.lease {
+  margin-bottom: 0; }
+  .product-wrap.lease .gt-tab-nav {
+    margin-left: 0; }
+.product-wrap.buy .w-table th {
+  vertical-align: top; }
+
+.consult.type2 {
+  background-color: #fbfaf8; }
+  .consult.type2 .phone-number {
+    padding: 50px 0 10px;
+    color: #0081c8;
+    font-size: 38px; }
+    .consult.type2 .phone-number .ico-headset {
+      display: inline-block;
+      width: 33px;
+      height: 36px;
+      margin-right: 25px;
+      background: url("/assets/common/renew/images/ico_headset.png") no-repeat 0 0; }
+  .consult.type2 .email {
+    color: #666;
+    font-size: 18px; }
+
+.note-rental .title {
+  font-size: 28px;
+  margin-bottom: 26px; }
+
+/* HA */
+.product-wrap {
+  margin-bottom: 0; }
+.product-price .per {
+  font-size: 18px; }
+
+.ha-area {
+  padding-top: 85px; }
+  .ha-area.bottom-border {
+    padding-bottom: 85px; }
+  .ha-area .sub-title {
+    padding-bottom: 80px; }
+  .ha-area h4 {
+    font-size: 36px;
+    padding-bottom: 30px; }
+  .ha-area li {
+    color: #666; }
+.ha-subtitle {
+  font-size: 18px;
+  padding-bottom: 20px; }
+.ha-pdt {
+  padding-top: 80px; }
+
+.subtop.ha {
+  background: url("/assets/renew/images/ha/img_subtop_ha.png") no-repeat top center; }
+
+.functions.ha .items.two li {
+  float: none;
+  display: inline-block;
+  width: 49.8%;
+  vertical-align: top; }
+  .functions.ha .items.two li:nth-child(n + 3) {
+    margin-top: 60px; }
+  .functions.ha .items.two li .img-thumb.ha-recover {
+    background-image: url("/assets/renew/images/ha/ico_ha_recover.png"); }
+  .functions.ha .items.two li .img-thumb.ha-auto {
+    background-image: url("/assets/renew/images/ha/ico_ha_auto.png"); }
+  .functions.ha .items.two li .img-thumb.ha-mornitoring {
+    background-image: url("/assets/renew/images/ha/ico_ha_mornitoring.png"); }
+  .functions.ha .items.two li .img-thumb.ha-storage {
+    background-image: url("/assets/renew/images/ha/ico_ha_storage.png"); }
+  .functions.ha .items.two li .img-thumb.ha-system {
+    background-image: url("/assets/renew/images/ha/ico_ha_system.png"); }
+  .functions.ha .items.two li .img-thumb.ha-env {
+    background-image: url("/assets/renew/images/ha/ico_ha_env.png"); }
+
+.consult.ha {
+  padding: 85px 0;
+  font-weight: 300;
+  text-align: center; }
+  .consult.ha .tel {
+    margin-top: 60px; }
+    .consult.ha .tel dt {
+      font-weight: 400; }
+    .consult.ha .tel dd {
+      margin-bottom: 5px;
+      font-size: 36px;
+      font-weight: 400;
+      letter-spacing: -2px;
+      color: #0081c8; }
+      .consult.ha .tel dd .ico-headset {
+        display: inline-block;
+        width: 33px;
+        height: 36px;
+        margin-right: 25px;
+        background: url("/assets/common/renew/images/ico_headset.png") no-repeat 0 0; }
+
+.functions.index {
+  padding: 85px 0; }
+  .functions.index .items {
+    padding-top: 50px; }
+  .functions.index .items.six li {
+    width: 16.666%; }
+    .functions.index .items.six li:nth-child(n + 5) {
+      margin-top: 0; }
+    .functions.index .items.six li .img-thumb.ico1 {
+      background-image: url("https://static.gabia.com/www2/idc/index/ico1.png"); }
+    .functions.index .items.six li .img-thumb.ico2 {
+      background-image: url("https://static.gabia.com/www2/idc/index/ico2.png"); }
+    .functions.index .items.six li .img-thumb.ico3 {
+      background-image: url("https://static.gabia.com/www2/idc/index/ico3.png"); }
+    .functions.index .items.six li .img-thumb.ico4 {
+      background-image: url("https://static.gabia.com/www2/idc/index/ico4.png"); }
+    .functions.index .items.six li .img-thumb.ico5 {
+      background-image: url("https://static.gabia.com/www2/idc/index/ico5.png"); }
+    .functions.index .items.six li .img-thumb.ico6 {
+      background-image: url("https://static.gabia.com/www2/idc/index/ico6.png"); }
+  .functions.index .items.three li .img-thumb.feature_ico1 {
+    background-image: url("https://static.gabia.com/www2/idc/index/feature_ico1.png"); }
+  .functions.index .items.three li .img-thumb.feature_ico2 {
+    background-image: url("https://static.gabia.com/www2/idc/index/feature_ico2.png"); }
+  .functions.index .items.three li .img-thumb.feature_ico3 {
+    background-image: url("https://static.gabia.com/www2/idc/index/feature_ico3.png"); }
+  .functions.index .items.three li .img-thumb.feature_ico4 {
+    background-image: url("https://static.gabia.com/www2/idc/index/feature_ico4.png"); }
+  .functions.index .items.three li .img-thumb.feature_ico5 {
+    background-image: url("https://static.gabia.com/www2/idc/index/feature_ico5.png"); }
+  .functions.index .items.three li .img-thumb.feature_ico6 {
+    background-image: url("https://static.gabia.com/www2/idc/index/feature_ico6.png"); }
+
+.recommend {
+  padding: 85px 0; }
+  .recommend.index .title {
+    float: none;
+    width: auto; }
+  .recommend.index .items {
+    width: auto;
+    padding: 50px 0 0;
+    text-align: left; }
+    .recommend.index .items li {
+      background: #2886ca;
+      width: 280px;
+      height: 300px;
+      padding: 30px; }
+      .recommend.index .items li .font-size-28 {
+        font-size: 28px;
+        font-weight: 300; }
+      .recommend.index .items li .font-size-14 {
+        font-size: 14px; }
+      .recommend.index .items li .go-detail {
+        font-size: 18px;
+        color: #fff; }
+      .recommend.index .items li:first-child {
+        margin-left: 0; }
+      .recommend.index .items li:nth-of-type(n+3) {
+        margin-top: 0; }
+      .recommend.index .items li .fa, .recommend.index .items li .far {
+        margin-left: 10px; }
+
+.service-intro {
+  background-color: #f8f9fb; }
+  .service-intro .item {
+    position: relative;
+    float: left;
+    width: 33.333%;
+    height: 380px;
+    border-left: 1px solid #f2f2f2; }
+    .service-intro .item:last-child {
+      border-right: 1px solid #f2f2f2; }
+    .service-intro .item h2 {
+      margin-top: 65px;
+      font-size: 36px;
+      color: #333;
+      margin-left: 40px;
+      letter-spacing: -2px; }
+    .service-intro .item ul {
+      margin: 10px 0 0 40px; }
+    .service-intro .item .border {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 380px;
+      z-index: 2; }
+      .service-intro .item .border .gt-btn-txt {
+        position: relative;
+        top: 230px;
+        left: 40px;
+        letter-spacing: -1px; }
+      .service-intro .item .border:hover {
+        border: 3px solid #e6e7e9;
+        border-top: 2px solid #e6e7e9; }
+        .service-intro .item .border:hover .gt-btn-txt {
+          top: 228px;
+          left: 37px; }
+    .service-intro .item:nth-of-type(1) span {
+      display: inline;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 0;
+      height: 267px;
+      width: 263px;
+      background: url("http://static.gabia.com/www2/idc/index/idc_index_vps.png") 45px 27px no-repeat; }
+    .service-intro .item:nth-of-type(1):hover {
+      background-color: #fff; }
+    .service-intro .item:nth-of-type(2) span {
+      display: inline;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 0;
+      height: 225px;
+      width: 194px;
+      background: url("http://static.gabia.com/www2/idc/index/idc_index_1min.png") 5px 9px no-repeat; }
+    .service-intro .item:nth-of-type(2):hover {
+      background-color: #fff; }
+    .service-intro .item:nth-of-type(3) span {
+      display: inline;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 0;
+      height: 267px;
+      width: 263px;
+      background: url("http://static.gabia.com/www2/idc/index/idc_index_backup.png") 50px 28px no-repeat; }
+    .service-intro .item:nth-of-type(3):hover {
+      background-color: #fff; }
+
+.pt12 {
+  padding-top: 12px; }
+
+.pb40 {
+  padding-bottom: 40px; }
+
+.consult.index {
+  background-color: #fbfaf8; }
+
+/* idc detial */
+.sub-header.detail-header {
+  padding: 90px 0 50px;
+  background: none; }
+  .sub-header.detail-header h4 {
+    font-size: 28px; }
+
+.tooltip-padding {
+  padding-bottom: 20px; }
+.tooltip-vat {
+  padding-top: 10px;
+  font-size: 14px; }
+
+.w-ccc {
+  color: #ccc; }
+
+.detail-title {
+  margin-bottom: 18px; }
+.detail-table .w-table {
+  table-layout: fixed; }
+  .detail-table .w-table.gt-table-center tbody tr th {
+    padding: 0 0 0 30px;
+    text-align: left; }
+.detail-table th, .detail-table td {
+  padding: 30px 0; }
+.detail-table thead th {
+  background: none;
+  border-bottom: 1px solid #999; }
+.detail-table td.detail-case {
+  padding: 15px 0; }
+.detail-table .w-list.dot {
+  color: #666; }
+  .detail-table .w-list.dot > li {
+    display: inline-block;
+    width: 100%; }
+    .detail-table .w-list.dot > li:before {
+      display: inline-block;
+      width: 15px;
+      content: '\2022'; }
+.detail-table .gt-tooltip .gt-tooltip-content {
+  font-size: 16px;
+  font-weight: 300;
+  text-align: left;
+  color: #fff; }
+  .detail-table .gt-tooltip .gt-tooltip-content li {
+    display: table;
+    color: #fff; }
+    .detail-table .gt-tooltip .gt-tooltip-content li:before {
+      display: table-cell; }
+    .detail-table .gt-tooltip .gt-tooltip-content li.w-ccc {
+      color: #ccc; }
+  .detail-table .gt-tooltip .gt-tooltip-content .tooltip-title {
+    color: #ffd56c; }
+.detail-table .gt-layer-wrap {
+  text-align: left; }
+.detail-button {
+  padding-top: 50px; }
+  .detail-button .gt-btn-blue {
+    margin-left: 15px; }
+
+.pdt-10 {
+  padding-top: 10px; }
+
+.pdt-20 {
+  padding-top: 20px; }
+
+.pdt-30 {
+  padding-top: 30px; }
+
+.pdt-100 {
+  padding-top: 100px; }
+
+.pdl-16 {
+  padding-left: 16px; }
+
+.pdb-20 {
+  padding-bottom: 20px; }
+
+/*# sourceMappingURL=page.css.map */
