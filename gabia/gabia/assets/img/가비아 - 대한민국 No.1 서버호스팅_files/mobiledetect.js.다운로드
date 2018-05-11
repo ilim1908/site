@@ -1,0 +1,227 @@
+var detectmobile =
+{
+    redirectCallback : null,
+    defaultMobileURL : null,
+    mobileSiteDomainIdentifiers : ["m", "mobi"],
+    thresholdWidthInPixels : 970, // iPhone 4 is 960
+    cookieName : "detectmobilesticky",
+    forceWebParameter : "force-web",
+    forceMobileParameter : "force-mobile",
+    stripDomains : ["www", "www2", "www3", "m", "mobi", "lmk", "lmk.www"],
+    process : function()
+	{
+        var currentURL = window.location.href;
+        var parameters = this.splitURLParameters(currentURL);
+        var oldCookie = this.readCookie(this.cookieName);
+        if(this.forceWebParameter in parameters) {
+           this.createCookie(this.cookieName, "true");
+           return;
+        }
+        if(oldCookie) {
+			if (this.forceMobileParameter in parameters) {
+				this.eraseCookie(this.cookieName);
+		    } else {
+			return;
+			}
+        }
+        if(this.isOnMobileSite()) {
+            return;
+        }
+        if(this.detectMobile() || (this.forceMobileParameter in parameters)) {
+             // Based on the feature deteciton this looks like we are on the mobile site
+             var url = this.getRedirectTarget("mobile", currentURL);
+             this.performRedirect(url);
+        }
+    },
+    getRedirectTarget : function(mode, url)
+	{
+        var newURL = null;
+        if(this.redirectCallback) {
+			newURL = this.redirectCallback(mode, url);
+        } else {
+			if(mode == "mobile") {
+				newURL = this.defaultMobileURL;
+			}
+        }
+        if(!newURL) {
+			throw "Cannot redirect to " + mode + " because target URL cannot be resolved by detectmobile.js";
+        }
+        return newURL;
+    },
+    performRedirect : function(url)
+	{
+        if(url == window.location.href) {
+            window.location.reload();
+            return;
+        }
+        window.location = url;
+    },
+    replaceDomainName : function(url, newDomain, prefix, strip)
+	{
+        var i;
+		if(url.substring(0, 4) != "http") {
+			throw "Only absolute http/https URLs supported";
+        }
+        var split = url.split("/");
+		if(split.length <2) {
+			throw "Cannot understand:" + url;
+		}
+        var host = split[2];
+        hostparts = host.split(":");
+		var hostname = hostparts[0];
+		for(i=0; i<this.stripDomains.length; i++) {
+			var s = this.stripDomains[i];
+			if(hostname.indexOf(s + ".") == 0) {
+				hostname = hostname.substring(s.length + 1);
+				break;
+			}
+		}
+        if(prefix) {
+			newDomain = newDomain + "." + hostname;
+        }
+		if(hostparts.length > 1) {
+			hostparts = [newDomain, hostparts[1]]
+		} else {
+			hostparts = [newDomain];
+		}
+        var host = hostparts.join(":");
+        var newsplit = [ split[0], split[1], host ];
+        for(var i=3; i<split.length; i++) {
+			newsplit.push(split[i]);
+        }
+        return newsplit.join("/");
+    },
+	addURLParameter : function(aURL, aNewVar)
+	{
+		var args = mobilize.getUrlVars(aURL);
+        var newurl = aURL.split("?",1)[0];
+        newurl += "?";
+
+        var items = [];
+        for(var i = 0; i < args.length; i++) {
+            var a = args[i];
+            var value = args[a];
+            items.push(a + "=" + value);
+        }
+
+        items.push(aNewVar);
+
+        newurl += items.join("&");
+        return newurl;
+    },
+    splitURLParameters : function (aURL)
+	{
+        if(!this._urlvars) {
+            this._urlvars = {};
+        }
+        if(!aURL) {
+            aURL = window.location.href;
+        }
+        if(this._urlvars[aURL]) {
+            return this._urlvars[aURL];
+        }
+        var vars = [], hash;
+        if(aURL.indexOf("#") >= 0 ){
+            aURL = aURL.slice(0,aURL.indexOf("#"));
+        }
+        var hashes = aURL.slice(aURL.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+
+        this._urlvars[aURL] = vars;
+        return vars;
+    },
+    createCookie : function(name,value,days)
+	{
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime()+(days*24*60*60*1000));
+            expires = "; expires="+date.toGMTString();
+        }
+        document.cookie = name+"="+value+expires+"; path=/";
+    },
+    readCookie : function(name)
+	{
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)===' ') {
+                c = c.substring(1,c.length);
+            }
+            if (c.indexOf(nameEQ) === 0) {
+                return c.substring(nameEQ.length,c.length);
+            }
+        }
+        return null;
+    },
+    eraseCookie : function(name)
+	{
+        this.createCookie(name,"",-1);
+    },
+    detectMobile: function()
+	{
+        var dimensions  = this.getScreenDimensions();
+		var length = Math.max(dimensions.width, dimensions.height);
+        if(length <= this.thresholdWidthInPixels) {
+               return true;
+        }
+        return false;
+    },
+    getScreenDimensions : function()
+	{
+        return {
+			width : window.screen.availWidth,
+			height : window.screen.availHeight
+        }
+    },
+    isOnMobileSite : function()
+	{
+        var domainName = window.location.hostname;
+        var parts = domainName.split(".");
+        for(var i=0; i<parts.length; i++) {
+            for(var l=0; l<this.mobileSiteDomainIdentifiers.length; l++) {
+                if(parts[i] == this.mobileSiteDomainIdentifiers[l]) {
+                        return true;
+                }
+            }
+        }
+        return false;
+    },
+    
+    setDevice : function(pValue)
+    {
+		var seturl = "https://www.gabia.com/mygabia/main/setDevice?jsoncallback=?";
+		$.ajax({
+			type: "POST",
+			url: seturl,
+			dataType: "jsonp",
+			data: {"flag" : pValue},
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+				if(!$.isUnloaded){
+					alert("디바이스 설정에 오류가 생겼습니다. 잠시 후 다시 해 주시기 바랍니다.");
+				}
+			},
+			success : function(response){
+				if(response.RT_CODE == "0000"){
+					document.location.reload();
+				}
+				else alert("디바이스 설정에 오류가 생겼습니다. 잠시 후 다시 해 주시기 바랍니다.");
+			}
+		});
+    },
+    
+    noMobilePageNewWindow : function(url)
+    {
+		if(window.confirm("새 창으로 확인하시겠습니까?")==true){
+			window.open(url);
+		}else{
+			return false;
+		}
+	}
+};
