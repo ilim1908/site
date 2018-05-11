@@ -78,6 +78,8 @@ position: absolute; right: 0; top: 1px; }
 .infor .infor-box .in-right {float: left; width: 50%; padding-left: 50px; box-sizing: border-box;}
 .infor .infor-box .in-right li {font-size: 16px; color: #666;}
 
+
+
 /* ad */
 .ad {padding: 70px 0; text-align: center; z-index: 10; position: relative;}
 .ad h3 {font-size: 40px; padding-bottom: 20px; color: #fff;}
@@ -159,7 +161,9 @@ position: absolute; right: 0; top: 1px; }
 #sub-banner.webhosting-bg {background: url(../img/webhosting-bg1.png) repeat-x center top; }
 #product-table {}
 #select2 {background-color: #1d7abd;}
-#select3 {}
+#select5 {}
+#select3 [}] 
+#infor2{}
 
 /* sub-banner  */
 .sub-banner { overflow: hidden; padding: 90px 0;}
@@ -184,16 +188,6 @@ position: absolute; right: 0; top: 1px; }
 .product-table .list .help {font-size: 18px;}
 
 
-/* product-table 
-.product-table { padding: 80px 0; overflow: hidden;}
-.product-table  .table-title1 { padding: 20px 0; }
-.product-table  .table-style1{ }
-.product-table p.down1 {text-align: center; padding-top:30px; font-size: 17px;}
-.product-table ul.down2 {font-size: 15px;}
-.product-table ul.down2 li {padding: 5px 0; }
-.product-table ul.down2 li a {font-size: 18px;}
-.product-table .down2 li:before {content: ''; width: 3px; height: 3px; background-color:#ccc; }*/
-
 /* table-title1 */
 .table-title1 {position: relative;  }
 .table-title1 li {display: inline; }
@@ -217,46 +211,6 @@ position: absolute; right: 0; top: 1px; }
 .table-style1 .large {font-size: 28px; line-height:38px;}
 .table-style1 .small {font-size: 12px;}
 .table-style1 .view {display: inline-block; padding: 5px 45px; color: #fff; background-color: #3090d6; font-size: 16px;}
-
-/* table-style1  sim
-.table-style1 { }
-.table-style1 table {border-top: 2px solid #6f6f6f;}
-.table-style1 thead { font-size: 16px;   border-bottom: 1px solid #9a9a9a; }
-.table-style1 tbody { padding: 20px;  }
-.table-style1 tr th {border-right: 1px solid #ccc; padding: 13px 0;}
-.table-style1 tr th:last-child {border: 0;}
-.table-style1 td {padding:  10px 30px;   border-bottom: 1px solid #ccc; }
-.table-style1 tbody tr .tb-td1{font-size: 25px; border-right: 1px solid #ccc;  }
-.table-style1 tbody tr .tb-td1 img {vertical-align: middle;}
-.table-style1 tbody tr .tb-td1 span {border: 1px solid #ff9900; background-color: #ff9900; color:#fff; font-size: 13px; padding:3px 5px;}
-
-.table-style1 tbody tr .tb-td2{font-size: 16px; color: #666; border-right: 1px solid #ccc; }
-.table-style1 tbody tr .tb-td2 li {}
-.table-style1 tbody tr .tb-td2 span {font-weight:  bold ;}
-
-.table-style1 tbody tr .tb-td3{font-size: 16px; color: #666; border-right: 1px solid #ccc; text-align: center; }
-
-.table-style1 tbody tr .tb-td4{font-size: 16px; color: #666; border-right: 1px solid #ccc;  text-align: center; }
-
-.table-style1 tbody tr .tb-td5{font-size: 16px; text-align: center;  }
-.table-style1 tbody tr .tb-td5 p {font-size: 20px; padding-bottom: 10px; }
-.table-style1 tbody tr .tb-td5 span {font-size: 16px;}
-.table-style1 tbody tr .tb-td5 a {border: 1px solid #3090d6; background-color: #3090d6; color:#fff; padding:7px 25px;} */
-
-/* select2
-.select2 {overflow: hidden; padding: 80px 0; }
-.select2 h3 {float: left; font-size: 40px; color:#fff; width: 400px; font-weight: 300; }
-.select2 > div { color:#fff; padding: 3%; width: 25%; height: 300px;}
-.select2 > div.sel-1 {float: left; background: #2886ca ;background-size: 90px; margin-right: 3%;}
-.select2 > div.sel-1 ul {}
-.select2 > div.sel-1  .sel-11 {margin-bottom: 70px;}
-.select2 > div.sel-1  .sel-12 {font-size: 18px; margin-bottom: 10px; }
-.select2 > div.sel-1  .sel-13 {font-size: 15px; font-weight: 300; }
-.select2 > div.sel-2 {float: left; background: #2886ca ; background-size: 90px; }
-.select2 > div.sel-2 ul {}
-.select2 > div.sel-2  .sel-21  {margin-bottom: 70px;}
-.select2 > div.sel-2  .sel-22 {font-size: 18px; margin-bottom: 10px; }
-.select2 > div.sel-2  .sel-23 {font-size: 15px; font-weight: 300; } */
 
 /* select2 */
 .select2 {overflow: hidden; padding: 70px 0;}
@@ -301,29 +255,28 @@ position: absolute; right: 0; top: 1px; }
 
 
 
-/* select3
-.select3 {padding:70px 0; }
-.select3 h3 {text-align: center; font-size: 35px;}
-.select3 a {font-size: 15px; border: 1px solid; }
-.select3 >div {width: 900px;  margin: 0 auto;   padding-top: 45px;}
-.select3 >div.sel3-1 {overflow: hidden;font-size: 15px; float: left;}
-.select3 >div.sel3-1 span {}
-.select3 >div.sel3-1 ul {}
-.select3 >div.sel3-1 li {}
-.select3 >div.sel3-1 .part1 {}
-.select3 >div.sel3-1 .part2 {}
-.select3 >div.sel3-2 { font-size: 15px; float: left; }
-.select3 >div.sel3-2 span { }
-.select3 >div.sel3-2 ul {}
-.select3 >div.sel3-2 li {}
-.select3 >div.sel3-2 .part1 {}
-.select3 >div.sel3-2 .part2 {}
- */
-
-
-
 /* table-style2 */
 .table-style2 {  }
 
 /* table-style3 */
 .table-style3 {  }
+
+
+/* infor2 */
+.infor2 {padding: 70px 0; text-align: center;  }
+.infor2 h3 {font-size: 40px; padding-bottom: 20px; font-weight: 300;   }
+.infor2 .infor-btn {font-size: 16px; display: inline-block; border: 1px solid #333; background-color: #fff; padding: 12px 42px; transition: all 0.3s ease; margin-bottom: 50px;  }
+.infor2 .infor-btn:hover {background-color: #000; color: #fff;}
+.infor2 .infor-box {overflow: hidden; text-align: left; padding: 0 150px; }
+.infor2 .infor-box .in-left {overflow: hidden; width: 50%; float: left;  }
+.infor2 .infor-box .in-left h4 {float: left; width: 110px; height: 80px; background-color: #1d7abd; border-radius: 50%; /* box-sizing: border-box; */color: #fff; font-size: 16px; text-align: center; padding-top: 30px;}
+.infor2 .infor-box .in-left ul {float: left; padding: 25px 0 0 20px;  }
+.infor2 .infor-box .in-left li {padding-bottom: 10px; font-size: 16px; }
+.infor2 .infor-box .in-left li em {width: 160px; display: inline-block;  }
+.infor2 .infor-box .in-left li strong {color: #1d7abd;  }
+.infor2 .infor-box .in-right {overflow: hidden; width: 50%; float: left; }
+.infor2 .infor-box .in-right h4 {float: left; width: 110px; height: 90px; background-color: #1d7abd; border-radius: 50%; /* box-sizing: border-box; */color: #fff; font-size: 16px; text-align: center; padding-top: 20px; }
+.infor2 .infor-box .in-right ul {float: left; padding: 25px 0 0 20px;  }
+.infor2 .infor-box .in-right li {padding-bottom: 10px; font-size: 16px; }
+.infor2 .infor-box .in-right li em {width: 90px; display: inline-block;  }
+.infor2 .infor-box .in-right li strong {color: #1d7abd; }
