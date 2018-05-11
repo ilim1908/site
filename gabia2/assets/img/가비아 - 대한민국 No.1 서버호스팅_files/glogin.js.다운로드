@@ -1,0 +1,705 @@
+function glogin_func_reload()
+{
+	if (document.glogin_layer_form) {
+		document.glogin_layer_form.submit();
+	} else {
+		location.reload();
+	}
+}
+
+$.fn.toCenter = function() {
+	return this.each(function(){
+		var element = $(this);
+		var win = $(window);
+		var x = win.width();
+		var y = win.height();
+
+		var left = (x - element.width()) / 2 + win.scrollLeft() ;
+		var top = (y - element.height()) / 2 + win.scrollTop() ;
+
+		element.remove().appendTo("body");
+		element.css({"position": "absolute","left": left, 'top' : top});
+	});
+};
+
+var LOGIN_DOMAIN = "https://www.gabia.com";
+var glogin =
+{
+	// 유효성 체크
+	check_gnav_login_frm: function(f)
+	{
+		if (f.user_id.value == '아이디' || f.user_id.value.length < 2)
+		{
+			alert ("아이디를 정확히 기재해 주세요.");
+			f.user_id.focus();
+			return false;
+		}
+		if (f.user_pwd.value == '비밀번호' || f.user_pwd.value.length < 3)
+		{
+			alert ("비밀번호를 정확히 기재해 주세요.");
+			f.user_pwd.value = '';
+			f.user_pwd.focus();
+			return false;
+		}
+		if (f.gcaptcha_value.value==f.gcaptcha_value.defaultValue || f.gcaptcha_value.value.length < 4)
+		{
+			alert ("보안문자를 정확히 기재해 주세요.");
+			f.gcaptcha_value.value = '';
+			f.gcaptcha_value.focus();
+			return false;
+		}
+
+		//
+		document.cookie = "BrowserMemorry=ok;";
+		document.cookie = "BrowserFile=ok; expires="+ new Date((new Date()).getTime() + 1000*60*2).toGMTString()+ ";";
+
+		var testCookie = document.cookie;
+		var nMem	   = testCookie.indexOf("BrowserMemorry=ok");
+
+		// default
+		var nFile = 1;
+
+		if ( nMem == -1 || nFile == -1)
+		{
+			// where is cookie setting?
+			if ( navigator.appVersion.indexOf("MSIE 6") > 0 ) {
+				var sDefCookieError = "\n\n('도구-인터넷옵션-개인정보'에서 '기본값'을 선택해 주십시오.)";
+			} else {
+				var sDefCookieError = "\n\n('도구-인터넷옵션-보안'에서 '기본수준'을 선택해 주십시오.)";
+			}
+
+			if ( nMem == -1 && nFile == -1 ) {
+				alert("[세션 단위 쿠키]와 [컴퓨터에 저장 쿠키]를 사용할 수 있도록 브라우져 설정을 해 주십시오."	+ sDefCookieError);
+			} else if  ( nMem == -1 ) {
+				alert("[세션 단위 쿠키]를 사용할 수 있도록 브라우져 설정을 해 주십시오."+ sDefCookieError);
+			} else if ( nFile == -1 ) {
+				alert("[컴퓨터에 저장 쿠키]를 사용할 수 있도록 브라우져 설정을 해 주십시오."+ sDefCookieError);
+			}
+
+			return false;
+		}
+
+		document.cookie = "BrowserMemorry=ok; expires=Thu, 01-Jan-1970 00:00:01 GMT;"
+		document.cookie = "BrowserFile=ok; expires=Thu, 01-Jan-1970 00:00:01 GMT;"
+
+		//
+		if (!f.gabia_destination.value)
+		{
+			alert ("비정상적인 접근으로 인해 로그인이 실패되었습니다.\n다시 시도해주십시오.  [에러코드 GE0002]");
+			return false;
+		}
+
+		simpleCheck(f);
+
+		//
+		return false;
+	},
+
+	// 로그인 처리
+	get_login_result: function (f)
+	{
+		var data = $('#'+f.name).serialize();
+		var callback_funcname = 'glogin_func_reload';
+
+		if (typeof(f.callback_funcname) == 'object' && f.callback_funcname.value != '') callback_funcname = f.callback_funcname.value;
+
+        LOGIN_DOMAIN = "https://www.gabia.com";
+		$.ajax({
+			url: LOGIN_DOMAIN + "/login/helm.php?jsoncallback=?",
+			dataType: 'jsonp',
+			type : "POST",
+			data: data,
+			//jsonpCallback: callback_funcname,
+			error: function (xhr, stat) {
+                console.log(xhr.resonseText);
+                console.log(stat);
+				alert ('로그인 시도 중 에러가 발생했습니다.');
+			},
+			success: function (msg) {
+				if(msg.block_member == "B") {
+					gLayer.open('block_member_layer', true);
+					gLayer.relocate('block_member_layerLayerContents');
+					return false;
+				} else if (msg.block_member == "T" ) {
+					/// 통합 차단관리용
+					$('#block_common_code').text(msg.client_block_code);
+					gLayer.open('block_common_layer', true);
+					gLayer.relocate('block_common_layerLayerContents');
+					return false;
+				} else if ('D' == msg.block_member) {
+					var url = "/login/foreign_access?user_id="+f.user_id.value+"&callback_form="+f.name;
+					$("#glogin_common_layer").dialog('close');
+					gLayer.openPopup(url,false,true);
+					$("#glogin_foreign_access").find("._cancel").on("click", function() { gLayer.hide('glogin_foreign_access'); });
+					return false;
+				}
+
+				if (msg.err_msg)
+				{
+					if ( msg.login_error == "99" )
+					{
+						location.href = LOGIN_DOMAIN + "/login/resting";
+						return false;
+					}
+
+					alert (msg.err_msg);
+					gcaptchaapi.ReloadImage();
+
+					if (msg.redirect_login != undefined && msg.redirect_login != "") {
+						location.href = msg.redirect_login;
+					}
+					return false;
+				}
+
+				if (msg.login_error != "0")
+				{
+					alert('아이디와 비밀번호를 정확히 기재해 주세요.');
+					return false;
+				}
+
+				// 리모콘
+				var login_id = f.user_id.value;
+                if(f.aj_login_id) {
+    				f.aj_login_id.value = login_id;
+                }
+
+				// 부정로그인 체크
+				if (msg.client_blockip > 0)
+				{
+					// 전체 사이트에서 체크하기 위해 쿠키방식으로 변경
+					glogin.set_cookie_blockip( "cook_client_blockip", msg.client_blockip , "", "/", "gabia.com","");
+
+					document.client_blockip_frm.client_blockip.value = msg.client_blockip;
+					document.client_blockip_frm.submit();
+				}
+				else
+				{
+					if (msg.pwd_change_flag == "Y") // 비번변경 대상자인 경우
+					{
+						if ( objCookie.getCookie( "cook_member_blockip" ) != "checked")
+						{
+							location.href = LOGIN_DOMAIN + "/member/member_account_ichange.php";
+						}
+					}
+					// 사용중지
+					/*else
+					{
+						if ((msg.client_email_error > 0 || msg.client_hphone_error > 0) && objCookie.getCookie( "cook_member_upemail" ) != "checked")
+						{
+							glogin.update_email_info(msg.client_email_error, msg.client_hphone_error);
+						}
+					}*/
+				}
+
+				window[callback_funcname](msg);
+			}
+		});
+	},
+
+	set_main_loginform: function (mode)
+	{
+		location.reload();
+	},
+
+	update_email_info: function (email, hphone)
+	{
+		glogin.login_inc_popupLayer('/member/member_info_update.php?email_upflag='+email+'&hp_upflag='+hphone,545,352);
+	},
+
+	login_inc_closeLayer: function ()
+	{
+		glogin.login_inc_hiddenSelectBox('visible');
+		glogin.login_inc_ID('objEPopupLayer').parentNode.removeChild( login_inc_ID('objEPopupLayer') );
+		// login_inc_ID('objEPopupLayerBg').parentNode.removeChild( login_inc_ID('objEPopupLayerBg') );
+	},
+
+	login_inc_hiddenSelectBox: function (mode)
+	{
+		var obj = document.getElementsByTagName('select');
+		for (i=0;i<obj.length;i++){
+			obj[i].style.visibility = mode;
+		}
+	},
+
+	login_inc_ID: function (obj)
+	{
+		return document.getElementById(obj)
+	},
+
+	login_inc_popupLayer: function (page,w,h)
+	{
+		if (!w) w = 720;
+		if (!h) h = 850;
+
+		var pixelBorder = 3;
+		var titleHeight = 12;
+		w += pixelBorder * 2;
+		h += pixelBorder * 2 + titleHeight;
+
+		var bodyW = document.body.clientWidth;
+		var bodyH = document.body.clientHeight;
+
+		var posX = (bodyW - w) / 2;
+		var posY = (bodyH - h) / 4 + (500 / 4);
+
+		glogin.login_inc_hiddenSelectBox('hidden');
+
+		/*** 백그라운드 레이어 **
+		var obj = document.createElement("div");
+		with (obj.style){
+			position = "absolute";
+			left = 0;
+			top = 0;
+			width = "100%";
+			height = document.body.scrollHeight;
+			backgroundColor = "#000000";
+			filter = "Alpha(Opacity=50)";
+			opacity = "0.5";
+			zIndex = 50;
+		}
+		obj.id = "objEPopupLayerBg";
+		document.body.appendChild(obj);*/
+
+		/*** 내용프레임 레이어 ***/
+		var obj = document.createElement("div");
+		with (obj.style){
+			position = "absolute";
+			left = posX + document.body.scrollLeft;
+			top = posY + document.body.scrollTop;
+			width = w;
+			height = h;
+			//backgroundColor = "#ffffff";
+			zIndex = 50000;
+			//backgroundColor = "transparent";
+			border = "0px solid #000000";
+		}
+		obj.id = "objEPopupLayer";
+		document.body.appendChild(obj);
+
+		/*** 타이틀바 레이어 ***
+		var bottom = document.createElement("div");
+		with (bottom.style){
+			position = "absolute";
+			width = w - pixelBorder * 2;
+			height = titleHeight;
+			left = 0;
+			top = h - titleHeight - pixelBorder * 3;
+			padding = "4px 0 0 0";
+			textAlign = "center";
+			backgroundColor = "#000000";
+			color = "#ffffff";
+			font = "bold 8pt tahoma; letter-spacing:0px";
+		}
+		bottom.innerHTML = "<a href='javascript:login_inc_closeLayer()' class='white'>X close</a>";
+		obj.appendChild(bottom);
+
+		/*** 아이프레임 ***/
+		var ifrm = document.createElement("iframe");
+		with (ifrm.style){
+		width = w - 6;
+		height = h - pixelBorder * 2 - titleHeight - 3;
+		}
+		ifrm.frameBorder = 0;
+		ifrm.src = page;
+		obj.appendChild(ifrm);
+	},
+
+	set_cookie_blockip: function (name, value, expires, path, domain, secure) {
+		if (expires != "") {
+			var todayDate = new Date();
+			todayDate.setDate(todayDate.getDate() + expires)
+		}
+		document.cookie = name + "=" + escape(value) + ((expires) ? "; expires=" + todayDate.toGMTString() : "") + ((path) ? "; path=" + path : "") + ((domain) ? "; domain=" + domain : "") + ((secure) ? "; secure" : "")
+	},
+
+	pwdPhoneAuth : function(pUserId)
+	{
+		glogin.phoneAuth(pUserId, "password");
+	},
+
+	dormantPhoneAuth : function()
+	{
+		glogin.phoneAuth("", "dormant");
+	},
+
+	idPhoneAuth : function()
+	{
+		glogin.phoneAuth("", "idfind", $("#en_param").val());
+	},
+
+	restingPhoneAuth : function(pUserId)
+	{
+		glogin.phoneAuth(pUserId);
+	},
+
+	phoneAuth : function(pUserId, pwd, p1, p2, p3)
+	{
+		var url = null;
+
+		if ( pwd != undefined && pwd == "password") url = "/login/pwdAuth";
+
+		switch(pwd)
+		{
+			case "password" : url = "/login/pwdAuth";
+				break;
+			case "idfind" : url = "/login/idAuth";
+				break;
+			case "dormant" : url = "/login/dormantAuth";
+				break;
+			default : url = "/login/restingAuth";
+		}
+
+		var enc_msg = "";
+		var r_param1 = (p1 == undefined)?"" : p1;
+		var r_param2 = (p2 == undefined)?"" : p2;
+		var r_param3 = (p3 == undefined)?"" : p3;
+
+		$("#frmPhoneAuth").remove();
+
+		var frmText = "<form name=\"form_chk\" id=\"frmPhoneAuth\" method=\"post\">";
+		frmText += "<input type=\"hidden\" name=\"m\" value=\"checkplusSerivce\">				<!-- 필수 데이타로, 누락하시면 안됩니다. -->";
+		frmText += "<input type=\"hidden\" name=\"EncodeData\" id=\"EncodeData\" value=\"\" />	<!-- 위에서 업체정보를 암호화 한 데이타입니다. -->";
+	    	frmText += "<!-- 업체에서 응답받기 원하는 데이타를 설정하기 위해 사용할 수 있으며, 인증결과 응답시 해당 값을 그대로 송신합니다. 해당 파라미터는 추가하실 수 없습니다. -->";
+		frmText += "<input type=\"hidden\" name=\"param_r1\" id=\"param_r1\" value=\"\" />";
+		frmText += "<input type=\"hidden\" name=\"param_r2\" id=\"param_r2\" value=\"\" />";
+		frmText += "<input type=\"hidden\" name=\"param_r3\" id=\"param_r3\" value=\"\" />";
+		frmText += "<input type=\"hidden\" name=\"EncodeErr\" id=\"EncodeErr\" value=\"\" />";
+		frmText += "</form>";
+
+		$(frmText).appendTo("body");
+
+		//$.getJSON(url, {returnurl:returnurl, errorurl:errorurl}, function(data) {
+		$.getJSON(url, {"user_id" : pUserId}, function(data) {
+
+			if (data.RT_CODE == "0000")
+			{
+				var enc_data = data["DATA"];
+				var err_msg = data["MSG"];
+
+				if (enc_data)
+				{
+					$("#EncodeData").val(enc_data);
+					$("#param_r1").val(r_param1);
+					$("#param_r2").val(r_param2);
+					$("#param_r3").val(r_param3);
+
+					$("#frmPhoneAuth").attr("action", "https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb");
+					$("#frmPhoneAuth").attr("target", "popupChk");
+
+					window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+					$("#frmPhoneAuth").submit();
+				}
+				else
+				{
+					$("#EncodeErr").val(enc_msg);
+				}
+			}
+			else alert(data.MSG);
+		});
+	},
+
+	restingDocAuth : function(pId)
+	{
+		try
+		{
+			if ($("#alphaDiv")[0] != undefined )
+			{
+				$("#alphaDiv").css({"display" : "block"});
+				return;
+			}
+			var oAlphaDiv = $("<div id=\"alphaDiv\"></div>");
+			oAlphaDiv.css({"position" : "absolute", "top" : "0px", "left" : "0px", "background-color" : "black", "height" : $(window).height() + "px", "width" : "100%", "display" : "block", "opacity" : "0.6", "filter":"alpha(opacity=100)","-moz-opacity":"60%","opacity":"0.6", "z-index" : "1000"});
+
+			$("body").append(oAlphaDiv);
+			$("#divDocAuth").toCenter().show();
+			glogin.fileUploadInit();
+		}
+		catch(E)
+		{
+			console.log(E);
+		}
+	},
+
+	closeDocAuth : function()
+	{
+		$("#fileArea").find(".attachFiles").each(function() {
+			$(this).remove();
+		});
+
+		$("#divDocAuth").hide();
+		$("#alphaDiv").remove();
+	},
+
+	makeParam : function(pUserId)
+	{
+		var param = {};
+		var tool = ( $("#toolFax").is(":checked") )?"F" : "S";
+		var contact = $("#contact1").val() + $("#contact2").val() + $("#contact3").val();
+		contact = contact.trim();
+
+		if ( !$("#agreement").is(":checked") )
+		{
+			alert("개인정보 수집 이용에 동의 하셔야 합니다.");
+			return false;
+		}
+
+		if ( contact == "" || !validate.numeric(contact) || !validate.cellphone(contact))
+		{
+			alert("연락처 정보가 올바르지 않습니다.");
+			$("#contact1").focus();
+			return false;
+		}
+		//$("#btnArea").hide();
+
+		param["user_id"] = pUserId;
+		param["certify_tool"] = tool;
+		param["contact"] = contact;
+		param["file1_name"] = "";
+		param["file1_path"] = "";
+		param["file2_name"] = "";
+		param["file2_path"] = "";
+
+		return param;
+	},
+
+	requestResting : function(pUserId)
+	{
+		var param = glogin.makeParam(pUserId);
+
+		if ( param != false)
+		{
+			var oAlphaDiv = $("<div id=\"alphaDiv2\"></div>");
+			oAlphaDiv.css({"position" : "absolute", "top" : "0px", "left" : "0px", "background-color" : "black", "height" : $("#divDocAuth").height() + "px", "width" : "100%", "display" : "block", "opacity" : "0.6", "filter":"alpha(opacity=100)","-moz-opacity":"60%","opacity":"0.6", "z-index" : "1000"});
+
+			$("#divDocAuth").append(oAlphaDiv);
+
+			if ( param["certify_tool"] == "S")
+			{
+				glogin.fileUpload(pUserId);
+			}
+			else
+			{
+				glogin._submit(param);
+			}
+		}
+	},
+
+	_submit : function(pData)
+	{
+		$.ajax({
+			type: 'POST',
+			url: '/login/restingRequest',
+			data : pData,
+			dataType: 'json',
+			error: function (XMLHttpRequest, textStatus, errorThrown) {
+				console.log(XMLHttpRequest);
+				btnArea.show();
+			},
+			success: function(response) {
+				if (response['RT_CODE'] == "0000")
+				{
+					$("#divDocAuth").hide();
+					document.location.href = "/login/restingAccept";
+				}
+				else
+				{
+					alert(response.MSG);
+					$("#btnArea").show();
+				}
+			}
+		}).done(function() {
+			$("#alphaDiv2").remove();
+		});
+	},
+
+	fileUploadInit : function()
+	{
+		$("input[type=file]").each(function() {
+
+			$(this).on("change", function() {
+				glogin.fileAdded($(this));
+			});
+		});
+	},
+
+	fileAdded : function(pObj)
+	{
+		if ( !pObj.val().match(/.*\.(jpg|png|gif)$/i) )
+		{
+			alert("이미지 확장자는 jpg, png, gif만 가능합니다.");
+			pObj.val(null);
+			return false;
+		}
+
+		if ( $("#file1").val() == $("#file2").val() )
+		{
+			alert("동일한 파일입니다.");
+			pObj.val(null);
+			return false;
+		}
+	},
+
+	fileUpload : function(pId)
+	{
+		var attachFileCount = 0;
+		$("input[type=file]").each(function() {
+			if ( $(this).val() != "") ++attachFileCount;
+		});
+
+		if ( attachFileCount != 2)
+		{
+			alert("사업자 등록증 사본과 대표자 신분증 또는 담당자 재직증명서 두 개의 서류를 등록해주세요.");
+			$("#alphaDiv2").remove();
+			return false;
+		}
+
+		$("#ifrmTemp").remove();
+
+		$("<iframe id=\"ifrmTemp\" name=\"ifrmFile\" noscroll style=\"display:none;\"></iframe>").appendTo("body");
+		$("<input type=\"hidden\" name=\"user_id\" id=\"user_id\" value=\"" + pId + "\" />").appendTo($("#frmFile"));
+		$("#frmFile").submit();
+	},
+
+	fileUploadComplete : function(pUserId, pDest1, pFile1, pDest2, pFile2)
+	{
+		var param = glogin.makeParam(pUserId);
+		param["file1_name"] = pFile1;
+		param["file1_path"] = pDest1;
+		param["file2_name"] = pFile2;
+		param["file2_path"] = pDest2;
+
+		glogin._submit(param);
+	},
+
+	fileUploadFail : function(pMsg)
+	{
+		alert(pMsg);
+		$("#alphaDiv2").remove();
+	},
+
+	blockMessage : function(err_code, err_msg)
+	{
+		glogin.setBlockMessage(1, err_code, err_msg);
+		gLayer.open('block_common_layer', true);
+	},
+	blockMessage2 : function(err_code, err_msg)
+	{
+		glogin.setBlockMessage(2, err_code, err_msg);
+		gLayer.open('block_common_layer2', true);
+	},
+	setBlockMessage : function(alert_type, err_code, err_msg)
+	{
+		var el, elc;
+		if (alert_type==1) {
+			el = '#block_common_message';
+			elc = '#block_common_code';
+		} else {
+			el = '#block_common_message2';
+			elc = '#block_common_code2';
+		}
+		if (err_msg && err_msg!=undefined) {
+			$(el).html(err_msg);
+		}
+		if (err_code && err_code!=undefined) {
+			$(elc).text("(코드:"+err_code+")");
+		}
+	},
+
+    foreignAccessLayer: function(form, cb)
+    {
+        var url = "https://www.gabia.com/login/is_foreign_access";
+        $.ajax({
+            url:        url
+            ,dataType:  'json'
+            ,method:    'POST'
+            ,data:      $(form).serialize()
+            ,success:function(response){
+                if('S' == response.code) {
+                    if('D' == response.foreign_access) {
+						glogin.open_foreign_access(form.user_id.value, form.name);
+                    }else{
+				        if (form.name == "g_login_frm") {
+                            form.submit();
+                        }else{
+                            glogin.get_login_result(form);
+                        }
+                    }
+                }else {
+                    alert(response.msg);
+                }
+            }
+            ,error: function(response) {
+				console.log('error');
+                console.log(response);
+            }
+        });
+    },
+
+	open_foreign_access: function(user_id, form_name)
+	{
+		if('undefined' == form_name) {
+			form_name = 'g_login_form';
+		}
+		var url = "/login/foreign_access?user_id="+user_id+"&callback_form="+form_name;
+		gLayer.openPopup(url, false, true);
+		$("#glogin_foreign_access").find("._cancel").on("click", function() { gLayer.hide('glogin_foreign_access'); });
+	},
+
+    get_auth_no: function(form, cb)
+    {
+        $.ajax({
+            url: "https://www.gabia.com/login/get_client_token"
+            ,dataType:'json'
+            ,method:'POST'
+            ,data: $(form).serialize()
+            ,beforeSend: function() {
+                $("#btn_auth").addClass("off");
+            }
+            ,success:function(response){
+                if(response.auth_token) {
+                    $("#btn_auth").removeClass("off");
+                    $("input[name=auth_token]").empty().val(response.auth_token);
+
+                    //callback
+                    if('function' == typeof cb) {
+                        cb();
+                    }
+                }
+            }
+            ,error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    },
+
+    confirm_auth: function(form)
+    {
+        $.ajax({
+            url: "https://www.gabia.com/login/confirm_client_auth"
+            ,dataType:'json'
+            ,method:'POST'
+            ,data: $(form).serialize()
+            ,success:function(response){
+                if(response.auth_token) {
+                    var form_name = $("#callback_form").val();
+					if('' == form_name) {
+                        var f = document.getElementById('foreign_form');
+						glogin.get_login_result(f);
+					}else{
+						var f = document[form_name];
+	                    if('g_login_frm' == f.name) {
+	                        f.submit();
+	                    }else{
+	                        glogin.get_login_result(f);
+	                    }
+					}
+                }else {
+                    alert('인증실패');
+                }
+            }
+            ,error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+}
