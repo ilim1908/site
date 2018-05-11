@@ -19,7 +19,7 @@
 .slick-prev,
 .slick-next
 {
-    z-index: 10px;
+    z-index: 1000;
     font-size: 0;
     line-height: 0;
 
@@ -89,7 +89,7 @@
 }
 .slick-prev:before
 {
-    content: '';background: url(../img/arrow.png)no-repeat;width: 30px;height: 57px;position: absolute;left: 0;top: 0;
+    content: 'left'; background: url(../img/arrow.png) no-repeat;width: 30px;height: 57px;position: absolute;left: 0;top: 0;
 }
 [dir='rtl'] .slick-prev:before
 {
@@ -107,7 +107,7 @@
 }
 .slick-next:before
 {
-    content: '';background: url(../img/arrow.png)no-repeat;width: 30px;height: 57px;position: absolute;right: 0;top: 0;transform: rotate(180deg);
+    content: 'right';background: url(../img/arrow.png)no-repeat;width: 30px;height: 57px;position: absolute;right: 0;top: 0;transform: rotate(180deg);
 }
 [dir='rtl'] .slick-next:before
 {
