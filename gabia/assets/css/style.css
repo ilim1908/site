@@ -300,8 +300,7 @@
 .blog4 h3 {font-size: 34px; margin-bottom: 100px; text-align: center;}
 .blog4 .blog4-wrap {overflow: hidden; margin-bottom: 50px; text-align: center; }
 .blog4 .blog4-wrap > div {float: left; width: 29%; margin-left: 4%; }
-.blog4 .blog4-wrap > div h4 {font-size: 18px; padding: 25px 0 0px;  }
-.blog4 .blog4-wrap > div h4 em{color}
+.blog4 .blog4-wrap > div h4 {font-size: 18px; padding: 25px 0 15px;  }
 .blog4 .blog4-wrap > div h4 a{font-size: 18px; color:#000; }
 .blog4 .blog4-wrap > div p {font-size: 15px; color: #7e7e7e; }
 
@@ -311,9 +310,11 @@
 .blog5 h3 {font-size: 34px; margin-bottom: 100px; text-align: center;}
 .blog5 .blog5-wrap {overflow: hidden; margin-bottom: 80px; text-align: center; }
 .blog5 .blog5-wrap > div {float: left; width: 29%; margin-left: 4%; }
-.blog5 .blog5-wrap > div h4 {font-size: 18px; padding: 25px 0 15px;  }
+.blog5 .blog5-wrap  h4 {font-size: 18px; padding: 25px 0 15px;  }
+.blog5 .blog5-wrap .nb h4 {font-size: 18px; padding: 25px 0 15px;  }
+.blog5 .blog5-wrap .nb p{font-size: 15px; color: #7e7e7e; margin-bottom: 80px;}
 .blog5 .blog5-wrap > div h4 em{font-size: 18px;color:#1d7abd;;}
-.blog5 .blog5-wrap > div h4 a{font-size: 18px; color:#000}
+.blog5 .blog5-wrap > div h4 a{font-size: 5px; color:#000}
 .blog5 .blog5-wrap > div p {font-size: 15px; color: #7e7e7e; margin-bottom: 80px; }
 
 /* select5 */
@@ -328,6 +329,7 @@
 .select5 > div.simg5 {background: #2886ca url(../img/select3_icon5.png) no-repeat 30px 30px; background-size: 80px; margin-right: 0%;}
 .select5 > div  h4 {font-size: 18px; color: #fff; padding-bottom: 20px;  padding-top: 150px;}
 .select5 > div  p {font-size: 15px; color: #fff;  }
+.blog5 .blog5-wrap > div h4 a{font-size: 18px; color:#000}
 
 /*ho*/
 .ho  {overflow: hidden;width: 100%;}
